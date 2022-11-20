@@ -68,8 +68,11 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 #### **Lambda**  ([C# - .NET 6](#)  +  [Amazon.Lambda.Tools](#))
 
--   **[.NET Core 6](#)**
-
+    - **[.NET Core 6](#)**
+    - **[AWS](#)**
+        - Amazon.Lambda.Core 2.1.0
+        - Amazon.Lambda.Serialization.SystemTextJson 2.3.0
+        - Amazon.Lambda.APIGatewayEvents 2.5.0
 ---
 
 

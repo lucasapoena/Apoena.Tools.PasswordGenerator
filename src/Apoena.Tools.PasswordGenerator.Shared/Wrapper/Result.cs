@@ -1,4 +1,4 @@
-﻿namespace Apoena.Tools.PasswordGenerator.Lambda.Wrapper
+﻿namespace Apoena.Tools.PasswordGenerator.Shared.Wrapper
 {
 
     public class Result : IResult

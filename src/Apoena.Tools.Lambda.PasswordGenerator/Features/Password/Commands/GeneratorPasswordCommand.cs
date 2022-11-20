@@ -1,5 +1,5 @@
 ﻿using Amazon.Lambda.Core;
-using Apoena.Tools.PasswordGenerator.Lambda.Wrapper;
+using Apoena.Tools.PasswordGenerator.Shared.Wrapper;
 
 namespace Apoena.Tools.PasswordGenerator.Lambda.Features.Password.Commands;
 public class GeneratorPasswordCommand
@@ -15,44 +15,18 @@ public class GeneratorPasswordCommandHandler
 {
     public async Task<Result<string>> Handle(GeneratorPasswordCommand command)
     {
-        string patternChars = string.Empty;
+        var password = new Domain.Entities.Password(
+            command.NumberOfCharacters,
+            command.ContainUppercase,
+            command.ContainLowerCase,
+            command.ContainNumbers,
+            command.ContainSymbols
+        );
 
-        if (command.ContainUppercase)
-        {
-            LambdaLogger.Log("[X] ContainUppercase");
-            patternChars += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        }
+        var passwordGenerated = password.generatePassword();
 
-        if (command.ContainLowerCase)
-        {
-            LambdaLogger.Log("[X] ContainLowerCase");
-            patternChars += "abcdefghijklmnopqrstuvwxyz";
-        }
-
-        if (command.ContainNumbers)
-        {
-            LambdaLogger.Log("[X] ContainNumbers");
-            patternChars += "0123456789";
-        }
-
-        if (command.ContainSymbols)
-        {
-            LambdaLogger.Log("[X] ContainSymbols");
-            patternChars += "!@#%$^&*";
-        }
-
-        var temporaryString = new char[command.NumberOfCharacters];
-        var random = new Random();
-
-        for (int i = 0; i < temporaryString.Length; i++)
-        {
-            temporaryString[i] = patternChars[random.Next(patternChars.Length)];
-        }
-
-        var generatedPassword = new string(temporaryString);
-
-        LambdaLogger.Log($"Password: {generatedPassword}");
-        return await Result<string>.SuccessAsync(generatedPassword, "Successfully generated password!");
+        LambdaLogger.Log($"Password: {passwordGenerated}");
+        return await Result<string>.SuccessAsync(passwordGenerated, "Successfully generated password!");
     }
 
 }
